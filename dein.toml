@@ -1,0 +1,71 @@
+[[plugins]]
+repo = 'Shougo/dein.vim'
+
+[[plugins]]
+repo = 'tpope/vim-endwise'
+
+[[plugins]]
+repo = 'Townk/vim-autoclose'
+
+[[plugins]]
+repo = 'junegunn/fzf'
+build_on = '''
+./install -all
+'''
+
+[[plugins]]
+repo = 'junegunn/fzf.vim'
+on_cmd = [
+    'Files',
+    'ProjectFiles',
+    'Buffers',
+    'BLines',
+    'History',
+    'Tags',
+    'BTags',
+    'GFiles',
+    'Ag',
+]
+hook_add = '''
+nnoremap <silent> ,a :<C-u>Ag<CR>
+nnoremap <silent> ,f :<C-u>ProjectFiles<CR>
+nnoremap <silent> ,b :<C-u>Buffers<CR>
+nnoremap <silent> ,m :<C-u>History<CR>
+set rtp+=$XDG_CACHE_HOME/fzf "$XDG_CACHE_HOMEの下にインストールした場合
+" set rtp+=~/.fzf "~/.fzfにインストールした場合
+'''
+
+[[plugins]]
+repo = 'tpope/vim-fugitive'
+
+[[plugins]]
+repo = 'Shougo/deoplete.nvim'
+hook_add = '''
+   let g:deoplete#enable_at_startup = 1
+   let g:deoplete#enable_ignore_case = 1
+'''
+
+[[plugins]]
+repo = 'autozimu/LanguageClient-neovim'
+rev = 'next'
+depends = ['deoplete.nvim']
+build = 'bash install.sh'
+hook_add = '''
+set hidden
+let g:LanguageClient_serverCommands = {
+      \ 'cpp': ['clangd'],
+      \ }
+let g:LanguageClient_loadSettings = 1
+let g:LanguageClient_hasSnippetSupport = 0
+
+set completefunc=LanguageClient#complete
+
+nnoremap K :call LanguageClient#textDocument_hover()<CR>
+nnoremap F :call LanguageClient#textDocument_formatting()<CR>
+'''
+
+[[plugins]]
+repo = 'lambdalisue/fern.vim'
+
+[[plugins]]
+repo  = 'cespare/vim-toml'

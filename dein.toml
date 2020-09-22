@@ -27,13 +27,19 @@ on_cmd = [
     'Ag',
 ]
 hook_add = '''
-nnoremap <silent> ,a :<C-u>Ag<CR>
-nnoremap <silent> ,f :<C-u>ProjectFiles<CR>
-nnoremap <silent> ,b :<C-u>Buffers<CR>
-nnoremap <silent> ,m :<C-u>History<CR>
+nnoremap <silent> ,a :Ag<CR>
+nnoremap <silent> ,r :Rg<CR>
+nnoremap <silent> ,R :exec 'Rg' expand('<cword>')<CR>
+nnoremap <silent> ,f :ProjectFiles<CR>
+nnoremap <silent> ,F :Files<CR>
+nnoremap <silent> ,b :Buffers<CR>
+nnoremap <silent> ,m :History<CR>
 set rtp+=$XDG_CACHE_HOME/fzf "$XDG_CACHE_HOMEの下にインストールした場合
 " set rtp+=~/.fzf "~/.fzfにインストールした場合
 '''
+
+[[plugins]]
+repo = "airblade/vim-gitgutter"
 
 [[plugins]]
 repo = 'tpope/vim-fugitive'
@@ -41,8 +47,8 @@ repo = 'tpope/vim-fugitive'
 [[plugins]]
 repo = 'Shougo/deoplete.nvim'
 hook_add = '''
-   let g:deoplete#enable_at_startup = 1
-   let g:deoplete#enable_ignore_case = 1
+let g:deoplete#enable_at_startup = 1
+let g:deoplete#enable_ignore_case = 1
 '''
 
 [[plugins]]
@@ -66,6 +72,45 @@ nnoremap F :call LanguageClient#textDocument_formatting()<CR>
 
 [[plugins]]
 repo = 'lambdalisue/fern.vim'
+hook_add = '''
+nnoremap <silent> <Leader>; :Fern .<CR>
+'''
 
 [[plugins]]
-repo  = 'cespare/vim-toml'
+repo = 'cespare/vim-toml'
+
+[[plugins]]
+repo = 'Rigellute/rigel'
+
+[[plugins]]
+repo = 'ionide/Ionide-vim'
+build_on = '''
+make fsautocomplete
+'''
+
+[[plugins]]
+repo = 'rust-lang/rust.vim'
+on_ft = 'rust'
+
+[[plugins]]
+repo = 'bronson/vim-trailing-whitespace'
+
+[[plugins]]
+repo = 'simeji/winresizer'
+hook_add = '''
+let g:winresizer_start_key = '<Leader><C-T>'
+let g:winresizer_vert_resize = 5
+'''
+
+[[plugins]]
+repo = 'Lokaltog/vim-easymotion'
+hook_add = '''
+let g:EasyMotion_do_mapping = 0
+map <Leader>ef <plug>(easymotion-overwin-f2)
+map <Leader>ej <Plug>(easymotion-j)
+map <Leader>ek <Plug>(easymotion-k)
+let g:EasyMotion_smartcase = 1
+let g:EasyMotion_startofline = 0
+let g:EasyMotion_skipfoldedline = 0
+let g:EasyMotion_cmigemo = 1
+'''

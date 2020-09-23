@@ -27,15 +27,15 @@ on_cmd = [
     'Ag',
 ]
 hook_add = '''
-nnoremap <silent> ,a :Ag<CR>
-nnoremap <silent> ,r :Rg<CR>
-nnoremap <silent> ,R :exec 'Rg' expand('<cword>')<CR>
-nnoremap <silent> ,f :ProjectFiles<CR>
-nnoremap <silent> ,F :Files<CR>
-nnoremap <silent> ,b :Buffers<CR>
-nnoremap <silent> ,m :History<CR>
-set rtp+=$XDG_CACHE_HOME/fzf "$XDG_CACHE_HOMEの下にインストールした場合
-" set rtp+=~/.fzf "~/.fzfにインストールした場合
+  nnoremap <silent> ,a :Ag<CR>
+  nnoremap <silent> ,r :Rg<CR>
+  nnoremap <silent> ,R :exec 'Rg' expand('<cword>')<CR>
+  nnoremap <silent> ,f :ProjectFiles<CR>
+  nnoremap <silent> ,F :Files<CR>
+  nnoremap <silent> ,b :Buffers<CR>
+  nnoremap <silent> ,m :History<CR>
+  set rtp+=$XDG_CACHE_HOME/fzf "$XDG_CACHE_HOMEの下にインストールした場合
+  " set rtp+=~/.fzf "~/.fzfにインストールした場合
 '''
 
 [[plugins]]
@@ -47,33 +47,14 @@ repo = 'tpope/vim-fugitive'
 [[plugins]]
 repo = 'Shougo/deoplete.nvim'
 hook_add = '''
-let g:deoplete#enable_at_startup = 1
-let g:deoplete#enable_ignore_case = 1
-'''
-
-[[plugins]]
-repo = 'autozimu/LanguageClient-neovim'
-rev = 'next'
-depends = ['deoplete.nvim']
-build = 'bash install.sh'
-hook_add = '''
-set hidden
-let g:LanguageClient_serverCommands = {
-      \ 'cpp': ['clangd'],
-      \ }
-let g:LanguageClient_loadSettings = 1
-let g:LanguageClient_hasSnippetSupport = 0
-
-set completefunc=LanguageClient#complete
-
-nnoremap K :call LanguageClient#textDocument_hover()<CR>
-nnoremap F :call LanguageClient#textDocument_formatting()<CR>
+  let g:deoplete#enable_at_startup = 1
+  let g:deoplete#enable_ignore_case = 1
 '''
 
 [[plugins]]
 repo = 'lambdalisue/fern.vim'
 hook_add = '''
-nnoremap <silent> <Leader>; :Fern .<CR>
+  nnoremap <silent> <Leader>; :Fern .<CR>
 '''
 
 [[plugins]]
@@ -81,11 +62,14 @@ repo = 'cespare/vim-toml'
 
 [[plugins]]
 repo = 'Rigellute/rigel'
+hook_add = '''
+  au MyAutoCmd VimEnter * nested colorscheme rigel
+'''
 
 [[plugins]]
 repo = 'ionide/Ionide-vim'
 build_on = '''
-make fsautocomplete
+  make fsautocomplete
 '''
 
 [[plugins]]
@@ -98,19 +82,82 @@ repo = 'bronson/vim-trailing-whitespace'
 [[plugins]]
 repo = 'simeji/winresizer'
 hook_add = '''
-let g:winresizer_start_key = '<Leader><C-T>'
-let g:winresizer_vert_resize = 5
+  let g:winresizer_start_key = '<Leader><C-W>'
+  let g:winresizer_vert_resize = 5
 '''
 
 [[plugins]]
 repo = 'Lokaltog/vim-easymotion'
 hook_add = '''
-let g:EasyMotion_do_mapping = 0
-map <Leader>ef <plug>(easymotion-overwin-f2)
-map <Leader>ej <Plug>(easymotion-j)
-map <Leader>ek <Plug>(easymotion-k)
-let g:EasyMotion_smartcase = 1
-let g:EasyMotion_startofline = 0
-let g:EasyMotion_skipfoldedline = 0
-let g:EasyMotion_cmigemo = 1
+  let g:EasyMotion_do_mapping = 0
+  map <Leader>ef <plug>(easymotion-overwin-f2)
+  map <Leader>ej <Plug>(easymotion-j)
+  map <Leader>ek <Plug>(easymotion-k)
+  let g:EasyMotion_smartcase = 1
+  let g:EasyMotion_startofline = 0
+  let g:EasyMotion_skipfoldedline = 0
+  let g:EasyMotion_cmigemo = 1
+'''
+
+[[plugins]]
+repo = 'prabirshrestha/vim-lsp'
+hook_add = '''
+  if empty(globpath(&rtp, 'autoload/lsp.vim'))
+    finish
+  endif
+
+  function! s:on_lsp_buffer_enabled() abort
+    setlocal omnifunc=lsp#complete
+    setlocal signcolumn=yes
+    nnoremap <Leader>lf :LspDocumentFormatSync<CR>
+    nnoremap <Leader>ld :LspDefinition<CR>
+    nnoremap <Leader>lh :LspHover<CR>
+    nmap <buffer> <Leader>lr <plug>(lsp-rename)
+    inoremap <expr> <cr> pumvisible() ? "\<c-y>\<cr>" : "\<cr>"
+  endfunction
+
+  augroup lsp_install
+    au!
+    autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
+  augroup END
+  command! LspDebug let lsp_log_verbose=1 | let lsp_log_file = expand('~/lsp.log')
+
+  let g:lsp_diagnostics_enabled = 1
+  let g:lsp_diagnostics_echo_cursor = 1
+  let g:asyncomplete_auto_popup = 1
+  let g:asyncomplete_auto_completeopt = 0
+  let g:asyncomplete_popup_delay = 200
+  let g:lsp_text_edit_enabled = 1
+"'''
+[[plugins]]
+repo = 'prabirshrestha/asyncomplete.vim'
+depends = 'vim-lsp'
+[[plugins]]
+repo = 'prabirshrestha/asyncomplete-lsp.vim'
+depends = 'vim-lsp'
+[[plugins]]
+repo = 'prabirshrestha/asyncomplete-necosyntax.vim'
+depends = 'vim-lsp'
+[[plugins]]
+repo = 'Shougo/neco-syntax'
+depends = 'vim-lsp'
+[[plugins]]
+repo = 'mattn/vim-lsp-settings'
+depends = 'vim-lsp'
+[[plugins]]
+repo = 'mattn/vim-lsp-icons'
+depends = 'vim-lsp'
+
+[[plugins]]
+repo = 'luochen1990/rainbow'
+hook_add = '''
+  let g:rainbow_active = 1
+'''
+
+[[plugins]]
+repo = 'scrooloose/nerdcommenter'
+hook_add = '''
+  let g:NerdCommenter_do_mapping = 0
+  let g:NERDSpaceDelims = 1
+  let g:NERDDefaultAlign = 'left'
 '''

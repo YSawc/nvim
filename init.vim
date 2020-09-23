@@ -1,7 +1,14 @@
-" define usermap {{{2
+" define usermap {{{1
 let g:mapleader = "\<Space>"
 " }}}
+"
 
+" reset augroup
+augroup MyAutoCmd
+  autocmd!
+augroup END
+
+" dein {{{1
 if &compatible
   set nocompatible               " Be iMproved
 endif
@@ -39,6 +46,16 @@ syntax enable
 if dein#check_install()
   call dein#install()
 endif
+" }}}1
+
+" completion options {{{1
+set completeopt=menuone,noinsert
+" 補完表示時のEnterで改行をしない
+" inoremap <expr><CR>  pumvisible() ? "<C-y>" : "<CR>"
+inoremap <expr><C-n> pumvisible() ? "<Down>" : "<C-n>"
+inoremap <expr><C-p> pumvisible() ? "<Up>" : "<C-p>"pumvisible() ? "" : "
+
+" }}} 1
 
 set timeoutlen=1000 ttimeoutlen=0
 
@@ -51,6 +68,11 @@ set splitright         "画面を縦分割する際に右に開く
 set clipboard=unnamed  "yank した文字列をクリップボードにコピー
 set hls                "検索した文字をハイライトする
 
+set list
+set listchars=tab:»-,trail:-,eol:↲,extends:»,precedes:«,nbsp:%
+
+let loaded_matchparen = 1
+
 command! FZFFileListInBuffer call fzf#run({
 			\ 'source': 'find . -type d -name .git -prune -o ! -name .DS_Store',
 			\ 'sink': 'e',
@@ -58,7 +80,6 @@ command! FZFFileListInBuffer call fzf#run({
 			\ })
 
 inoremap <silent> jj <ESC>
-inoremap <silent> F :/\c<CR>
 
 " tmux {{{2
 nnoremap s <Nop>
@@ -106,8 +127,13 @@ imap <C-e> <ESC>A
 inoremap <C-f> <Right>
 inoremap <C-b> <Left>
 
+nnoremap <silent> <Leader><Leader> "zyiw:let @/ = '\<' . @z . '\>'<CR>:set hlsearch<CR>
+
 " refresh hlsearch
 nnoremap <Esc><Esc> :nohlsearch<CR>
+
+nnoremap <Leader>w :w<CR>
+nnoremap <Leader>q :q!<CR>
 
 " fileTypeIndent{{{2
 augroup fileTypeIndent
@@ -145,36 +171,4 @@ augroup fileTypeIndent
 augroup END
 " }}}
 
-" settings for languages
-let g:LanguageClient_serverCommands = {
-        \ 'cpp': ['clangd'],
-        \ 'rust': ['rustup', 'run', 'stable', 'rls'],
-        \ }
-
-augroup LanguageClient_config
-autocmd!
-autocmd User LanguageClientStarted setlocal signcolumn=yes
-autocmd User LanguageClientStopped setlocal signcolumn=auto
-augroup END
-
-let g:LanguageClient_autoStart = 1
-nnoremap <silent> <Space>lh :call LanguageClient_textDocument_hover()<CR>
-nnoremap <silent> <Space>ld :call LanguageClient_textDocument_definition()<CR>
-nnoremap <silent> <Space>lr :call LanguageClient_textDocument_rename()<CR>
-nnoremap <silent> <Space>lf :call LanguageClient_textDocument_formatting()<CR>
-
-set completeopt-=preview
-function! s:set_preview_docked()
-  if winwidth('%') > 80
-    let g:float_preview#docked = 0
-  else
-    let g:float_preview#docked = 1
-  endif
-endfunction
-call s:set_preview_docked()
-augroup MyFloadPreview
-  autocmd!
-  autocmd VimResized * call s:set_preview_docked()
-augroup END
-
-colorscheme rigel
+set foldmethod=marker

@@ -57,6 +57,10 @@ inoremap <expr><C-p> pumvisible() ? "<Up>" : "<C-p>"pumvisible() ? "" : "
 
 " }}} 1
 
+nnoremap <silent> yY :<C-u>%y<CR>
+
+nnoremap <silent> dD :<C-u>%d<CR>
+
 set timeoutlen=1000 ttimeoutlen=0
 
 set number             "行番号を表示
@@ -65,11 +69,19 @@ set tabstop=2          "タブを何文字の空白に変換するか
 set shiftwidth=2       "自動インデント時に入力する空白の数
 set expandtab          "タブ入力を空白に変換
 set splitright         "画面を縦分割する際に右に開く
-set clipboard=unnamed  "yank した文字列をクリップボードにコピー
+if has("clipboard")
+  set clipboard=unnamed
+endif
+set clipboard+=unnamedplus
+
 set hls                "検索した文字をハイライトする
 
 set list
 set listchars=tab:»-,trail:-,eol:↲,extends:»,precedes:«,nbsp:%
+
+set noswapfile
+set nobackup
+set noundofile
 
 let loaded_matchparen = 1
 
@@ -80,6 +92,11 @@ command! FZFFileListInBuffer call fzf#run({
 			\ })
 
 inoremap <silent> jj <ESC>
+
+nnoremap [q :cprevious<CR>   " 前へ
+nnoremap ]q :cnext<CR>       " 次へ
+nnoremap [Q :<C-u>cfirst<CR> " 最初へ
+nnoremap ]Q :<C-u>clast<CR>  " 最後へ
 
 " tmux {{{2
 nnoremap s <Nop>

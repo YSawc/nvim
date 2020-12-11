@@ -189,3 +189,5 @@ augroup END
 " }}}
 
 set foldmethod=marker
+
+set rtp+=~/.fzf

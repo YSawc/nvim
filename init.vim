@@ -27,7 +27,11 @@ if dein#load_state('~/.cache/dein')
   " Add or remove your plugins here:
   call dein#add('Shougo/neosnippet.vim')
   call dein#add('Shougo/neosnippet-snippets')
-  let s:toml = '~/.config/nvim/dein.toml'
+  if has('win64')
+    let s:toml = '~/AppData/Local/nvim/dein.toml'
+  else
+    let s:toml = '~/.config/nvim/dein.toml'
+  endif
   call dein#load_toml(s:toml, {'lazy': 0})
 
   " You can specify revision/branch/tag.

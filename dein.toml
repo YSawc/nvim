@@ -1,7 +1,4 @@
 [[plugins]]
-repo = 'Shougo/dein.vim'
-
-[[plugins]]
 repo = 'tpope/vim-endwise'
 
 [[plugins]]
@@ -168,12 +165,8 @@ rev = 'next'
 tab = '0.1.155'
 build = 'bash install.sh'
 hook_add = '''
-let g:LanguageClient_serverCommands = {}
+  let g:LanguageClient_serverCommands = {}
 '''
-
-[[plugins]]
-repo = 'ionide/Ionide-vim'
-build = 'make fsautocomplete'
 
 [[plugins]]
 repo = 'tpope/vim-markdown'

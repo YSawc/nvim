@@ -24,7 +24,7 @@ on_cmd = [
     'Ag',
 ]
 hook_add = '''
-  nnoremap <silent> ,a :Ag<CR>
+  " nnoremap <silent> ,a :Ag<CR>
   nnoremap <silent> ,r :Rg<CR>
   nnoremap <silent> ,R :exec 'Rg' expand('<cword>')<CR>
   nnoremap <silent> ,f :GitFiles<CR>
@@ -103,6 +103,11 @@ hook_add = '''
     finish
   endif
 
+  if 0
+    let g:lsp_log_verbose = 1
+    let g:lsp_log_file = expand('~/vim-lsp.log')
+  endif
+
   function! s:on_lsp_buffer_enabled() abort
     setlocal omnifunc=lsp#complete
     setlocal signcolumn=yes
@@ -174,7 +179,7 @@ repo = 'tpope/vim-markdown'
 [[plugins]]
 repo = 'previm/previm'
 hook_add = '''
-au BufRead,BufNewFile *.md set filetype=markdown
+  au BufRead,BufNewFile *.md set filetype=markdown
 '''
 
 [[plugins]]
@@ -183,10 +188,10 @@ repo = 'tyru/open-browser.vim'
 [[plugins]]
 repo = 'nathanaelkane/vim-indent-guides'
 hook_add = '''
-    let g:indent_guides_enable_on_vim_startup = 1
-    let g:indent_guides_color_change_percent = 1
-    let g:indent_guides_guide_size = 1
-    let g:indent_guides_start_level = 2
+  let g:indent_guides_enable_on_vim_startup = 1
+  let g:indent_guides_color_change_percent = 1
+  let g:indent_guides_guide_size = 1
+  let g:indent_guides_start_level = 2
 '''
 
 [[plugins]]
